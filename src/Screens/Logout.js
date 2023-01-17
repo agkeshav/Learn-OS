@@ -3,8 +3,8 @@ import React from "react";
 
 const Logout = () => {
   return (
-    <View>
-      <Text>Logout</Text>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text style={{ fontSize: 30 }}>Logout</Text>
     </View>
   );
 };
