@@ -11,7 +11,10 @@ import {
 import React from "react";
 import { Context } from "../context/commandsContext";
 import CommandTutorial from "../components/CommandTutorial";
-
+Text.defaultProps = {
+  ...(Text.defaultProps || {}),
+  allowFontScaling: false,
+};
 const LearnCommandsScreen = () => {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>

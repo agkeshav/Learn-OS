@@ -2,6 +2,10 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
+Text.defaultProps = {
+  ...(Text.defaultProps || {}),
+  allowFontScaling: false,
+};
 const CommandTutorial = ({ command, content, argument, executable }) => {
   if (executable) {
     return (

@@ -9,7 +9,10 @@ import React, { useContext } from "react";
 import { Context } from "../context/commandsContext";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
+Text.defaultProps = {
+  ...(Text.defaultProps || {}),
+  allowFontScaling: false,
+};
 const DirectoryDetailScreen = (props) => {
   const name = props.route.params.name;
   const { state, execute } = useContext(Context);

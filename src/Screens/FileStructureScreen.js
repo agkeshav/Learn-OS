@@ -9,7 +9,10 @@ import React, { useContext } from "react";
 import { Feather } from "@expo/vector-icons";
 import { Context as commandContext } from "../context/commandsContext";
 import { useNavigation } from "@react-navigation/native";
-
+Text.defaultProps = {
+  ...(Text.defaultProps || {}),
+  allowFontScaling: false,
+};
 const FileStructureScreen = () => {
   const navigation = useNavigation();
   const { state } = useContext(commandContext);

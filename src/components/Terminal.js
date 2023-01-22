@@ -14,7 +14,14 @@ import { Context } from "../context/commandsContext";
 import { useFonts } from "expo-font";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-
+Text.defaultProps = {
+  ...(Text.defaultProps || {}),
+  allowFontScaling: false,
+};
+TextInput.defaultProps = {
+  ...(TextInput.defaultProps || {}),
+  allowFontScaling: false,
+};
 const Terminal = () => {
   const { state, execute } = useContext(Context);
   const [command, setCommand] = useState("");

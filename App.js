@@ -26,6 +26,10 @@ import DirectoryDetailScreen from "./src/Screens/DirectoryDetailScreen";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
+Text.defaultProps = {
+  ...(Text.defaultProps || {}),
+  allowFontScaling: false,
+};
 const FileStructureFlow = () => {
   return (
     <Stack.Navigator>
@@ -89,9 +93,21 @@ const styles = StyleSheet.create({
   drawerItem: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333333",
-    flex: 1,
+    // color: "#007aff",
+
     width: "100%",
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+    marginHorizontal: 2,
+  },
+  drawerLable: {
+    fontSize: 18,
+    fontWeight: "bold",
+    // color: "#007aff",
+
+    // width: "100%",
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
   },
   drawerItemSelected: {
     backgroundColor: "#007aff50",
@@ -127,21 +143,31 @@ const App = () => {
           )}
           screenOptions={{
             drawerActiveBackgroundColor: "#007aff50",
-            drawerActiveTintColor: "#fff",
+            drawerActiveTintColor: "#007aff",
             drawerItemStyle: styles.drawerItem,
-            drawerLabelStyle: styles.drawerItem,
+            drawerLabelStyle: styles.drawerLable,
             drawerActiveLabelStyle: styles.drawerItemSelected,
             drawerItemContainerStyle: styles.drawerItemContainer,
           }}
           drawerStyle={styles.drawerContainer}
         >
           <Drawer.Screen
-            name="Home"
+            name="Learn OS"
             component={HomeScreen}
             options={{
               drawerIcon: () => (
-                <Entypo name="home" size={24} color="#007aff" />
+                <Entypo
+                  name="home"
+                  size={24}
+                  color="#007aff"
+                  style={{ marginLeft: 15 }}
+                />
               ),
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                fontWeight: "bold",
+                fontSize: 25,
+              },
               headerStyle: {
                 backgroundColor: "white",
                 shadowColor: "black",
@@ -158,8 +184,18 @@ const App = () => {
             component={LearnCommandsScreen}
             options={{
               drawerIcon: () => (
-                <FontAwesome5 name="book-reader" size={24} color="#007aff" />
+                <FontAwesome5
+                  name="book-reader"
+                  size={24}
+                  color="#007aff"
+                  style={{ marginLeft: 15 }}
+                />
               ),
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                fontWeight: "bold",
+                fontSize: 25,
+              },
               headerStyle: {
                 shadowColor: "black",
                 shadowOpacity: 0.2,
@@ -174,8 +210,14 @@ const App = () => {
             name="Play Ground"
             options={{
               drawerIcon: () => (
-                <Ionicons name="terminal" size={24} color="#007aff" />
+                <Ionicons
+                  name="terminal"
+                  size={24}
+                  color="#007aff"
+                  style={{ marginLeft: 15 }}
+                />
               ),
+              headerTintColor: "#fff",
               headerStyle: {
                 shadowColor: "black",
                 shadowOpacity: 0.2,
@@ -183,6 +225,10 @@ const App = () => {
                 shadowOffset: { width: 0, height: 4 },
                 elevation: 20,
                 backgroundColor: "#007aff",
+              },
+              headerTitleStyle: {
+                fontWeight: "bold",
+                fontSize: 25,
               },
               headerRight: () => {
                 const [fileIcon, setFileIcon] = useState(true);
