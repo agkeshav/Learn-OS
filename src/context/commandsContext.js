@@ -279,6 +279,12 @@ const commandsReducer = (state, action) => {
       state.showCurrentDir = false;
       return state;
 
+    case "reload":
+      state.showList = false;
+      state.showCurrentDir = false;
+      state.message = null;
+      return state;
+
     default:
       state.showList = false;
       state.showCurrentDir = false;
@@ -286,6 +292,10 @@ const commandsReducer = (state, action) => {
       state.message = null;
       return state;
   }
+};
+
+const refresh = (dispatch) => () => {
+  dispatch({ type: "reload" });
 };
 
 const execute = (dispatch) => (input) => {
@@ -306,7 +316,7 @@ const execute = (dispatch) => (input) => {
 
 export const { Context, Provider } = createDataContext(
   commandsReducer,
-  { execute },
+  { execute , refresh},
   {
     name: "root",
     id: 1,
