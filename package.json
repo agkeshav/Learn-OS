@@ -15,7 +15,11 @@
     "@react-navigation/stack": "^6.3.11",
     "depcheck": "^1.4.3",
     "expo": "~47.0.12",
+<<<<<<< HEAD
+    "expo-constants": "~14.0.2",
+=======
     "expo-font": "~11.0.1",
+>>>>>>> cc074baffdb63086a89ea7e5a3ecf69a3d8bf386
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
     "react-native": "0.70.5",

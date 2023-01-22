@@ -285,6 +285,15 @@ const commandsReducer = (state, action) => {
       state.showList = false;
       state.showCurrentDir = false;
       return state;
+<<<<<<< HEAD
+
+    case "reload":
+      state.showList = false;
+      state.showCurrentDir = false;
+      state.message = null;
+      return state;
+
+=======
     case "storeDir":
       state.cDir = [...state.cDir, state.currentDir];
       return state;
@@ -324,6 +333,7 @@ const commandsReducer = (state, action) => {
       console.log(state.io);
       console.log(state.io[state.io.length - 1].outputList);
       return state;
+>>>>>>> cc074baffdb63086a89ea7e5a3ecf69a3d8bf386
     default:
       state.showList = false;
       state.showCurrentDir = false;
@@ -331,6 +341,10 @@ const commandsReducer = (state, action) => {
       state.message = null;
       return state;
   }
+};
+
+const refresh = (dispatch) => () => {
+  dispatch({ type: "reload" });
 };
 
 const execute = (dispatch) => (input) => {
@@ -355,7 +369,7 @@ const execute = (dispatch) => (input) => {
 
 export const { Context, Provider } = createDataContext(
   commandsReducer,
-  { execute },
+  { execute , refresh},
   {
     name: "root",
     id: 1,
