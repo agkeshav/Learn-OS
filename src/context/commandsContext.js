@@ -37,6 +37,7 @@ const commandsReducer = (state, action) => {
           ];
         }
         state.dirs = new_dirs;
+        state.showList = false;
         state.errorMsg = null;
         state.message = `${action.payload} created under the ${state.currentDir} directory`;
       } else {
@@ -69,7 +70,7 @@ const commandsReducer = (state, action) => {
       if (state.currentDir == "root") {
         state.list = state.dirs.concat(state.files);
       } else {
-        var dir_id;
+        var dir_id=0;
         var i = state.dirs.length;
         while (i--) {
           if (state.dirs[i].name == state.currentDir) {
@@ -91,7 +92,12 @@ const commandsReducer = (state, action) => {
         state.message = null;
         state.showCurrentDir = false;
       }
-
+      // state.io = [...state.io, {
+      //   input:"ls",
+      //   outputList: state.list,
+      //   outputError: state.errorMsg
+      // }]
+      // console.log(state.io)
       return state;
 
     case "pwd":
@@ -105,12 +111,13 @@ const commandsReducer = (state, action) => {
       if (action.payload == "root" || action.payload == "..") {
         state.currentDir = "root";
         state.message = "current directory is shifted to root";
+        state.errorMsg = null;
       } else {
         var i = state.dirs.length;
         var found = false;
         while (i--) {
           if (state.dirs[i].name === action.payload) {
-            state.currentDir = action.payload;
+            state.currentDir = `root/${action.payload}`;
             found = true;
             break;
           }
@@ -278,7 +285,45 @@ const commandsReducer = (state, action) => {
       state.showList = false;
       state.showCurrentDir = false;
       return state;
-
+    case "storeDir":
+      state.cDir = [...state.cDir, state.currentDir];
+      return state;
+    case "storeIO":
+      // var new_rec;
+      // if (state.io.length > 0) {
+      //   new_rec = {
+      //     id: state.io.length + 1,
+      //     input: action.payload,
+      //     outputList: state.list,
+      //     outputError: state.errorMsg,
+      //     showList: state.showList,
+      //     currentDir: state.io[state.io.length - 1].currentDir,
+      //   };
+      // } else {
+      //   new_rec = {
+      //     id: state.io.length + 1,
+      //     input: action.payload,
+      //     outputList: state.list,
+      //     outputError: state.errorMsg,
+      //     showList: state.showList,
+      //     currentDir: state.currentDir,
+      //   };
+      // }
+      state.showIO = true;
+      state.io = [
+        ...state.io,
+        {
+          id: state.io.length + 1,
+          input: action.payload,
+          outputList: state.list,
+          outputError: state.errorMsg,
+          showList: state.showList,
+          currentDir: state.cDir[state.cDir.length - 1],
+        },
+      ];
+      console.log(state.io);
+      console.log(state.io[state.io.length - 1].outputList);
+      return state;
     default:
       state.showList = false;
       state.showCurrentDir = false;
@@ -300,8 +345,12 @@ const execute = (dispatch) => (input) => {
     const argument = input.replace(`${command} `, "");
     if (argument !== command) {
       dispatch({ type: command, payload: argument });
+    }else{
+      dispatch({type:" "})
     }
   }
+  dispatch({ type: "storeIO", payload: input });
+  dispatch({ type: "storeDir" });
 };
 
 export const { Context, Provider } = createDataContext(
@@ -317,6 +366,9 @@ export const { Context, Provider } = createDataContext(
     showCurrentDir: false,
     errorMsg: null,
     message: null,
+    showIO: false,
+    io: [],
+    cDir: ["root"],
     list: [],
   }
 );
