@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import Terminal from "../components/Terminal";
 
 const PlayGroundScreen = () => {
   const navigation = useNavigation();
   return (
     <View>
-      <Text>Here we will put the terminal</Text>
+      <Terminal/>
     </View>
   );
 };

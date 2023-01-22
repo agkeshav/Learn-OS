@@ -141,7 +141,7 @@ const Terminal = () => {
   );
 };
 
-
+// just want to see
 
 const styles = StyleSheet.create({
   terminalContainer: {
