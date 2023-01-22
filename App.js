@@ -9,15 +9,6 @@ import HomeScreen from "./src/Screens/HomeScreen";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-// const DrawerStack = () => {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen name="Home" component={HomeScreen} />
-//       <Stack.Screen name="Learn Commands" component={LearnCommandsScreen} />
-//       <Stack.Screen name="Accounts" component={Logout} />
-//     </Stack.Navigator>
-//   );
-// };
 
 const App = () => {
   return (
