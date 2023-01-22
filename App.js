@@ -6,6 +6,7 @@ import { Provider as CommandsProvider } from "./src/context/commandsContext";
 import LearnCommandsScreen from "./src/Screens/LearnCommandsScreen";
 import HomeScreen from "./src/Screens/HomeScreen";
 
+
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ const App = () => {
             name="Learn Commands"
             component={LearnCommandsScreen}
           />
+
         </Drawer.Navigator>
       </NavigationContainer>
     </CommandsProvider>
