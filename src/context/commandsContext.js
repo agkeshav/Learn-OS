@@ -285,7 +285,6 @@ const commandsReducer = (state, action) => {
       state.showList = false;
       state.showCurrentDir = false;
       return state;
-<<<<<<< HEAD
 
     case "reload":
       state.showList = false;
@@ -293,7 +292,6 @@ const commandsReducer = (state, action) => {
       state.message = null;
       return state;
 
-=======
     case "storeDir":
       state.cDir = [...state.cDir, state.currentDir];
       return state;
@@ -333,7 +331,6 @@ const commandsReducer = (state, action) => {
       console.log(state.io);
       console.log(state.io[state.io.length - 1].outputList);
       return state;
->>>>>>> cc074baffdb63086a89ea7e5a3ecf69a3d8bf386
     default:
       state.showList = false;
       state.showCurrentDir = false;
