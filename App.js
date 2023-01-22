@@ -1,3 +1,4 @@
+// This is a comment
 import {
   createDrawerNavigator,
   DrawerContent,
@@ -145,7 +146,6 @@ const App = () => {
             }}
             component={PlayGroundFlow}
           />
-
         </Drawer.Navigator>
       </NavigationContainer>
     </CommandsProvider>
