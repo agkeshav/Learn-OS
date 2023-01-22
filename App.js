@@ -1,5 +1,3 @@
-// This is a cokilsdulhfkdsa
-// This is a colksdjafl
 import {
   createDrawerNavigator,
   DrawerContent,
@@ -18,19 +16,96 @@ import Constants from "expo-constants";
 import { FontAwesome5 } from "@expo/vector-icons";
 import LearnCommandsScreen from "./src/Screens/LearnCommandsScreen";
 import HomeScreen from "./src/Screens/HomeScreen";
+import PlayGroundScreen from "./src/Screens/PlayGroundScreen";
+import { Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import FileStructureScreen from "./src/Screens/FileStructureScreen";
+import { useState, useContext } from "react";
+import DirectoryDetailScreen from "./src/Screens/DirectoryDetailScreen";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-// const DrawerStack = () => {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen name="Home" component={HomeScreen} />
-//       <Stack.Screen name="Learn Commands" component={LearnCommandsScreen} />
-//       <Stack.Screen name="Accounts" component={Logout} />
-//     </Stack.Navigator>
-//   );
-// };
+const FileStructureFlow = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="FileStructure"
+        component={FileStructureScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="DirectoryDetail"
+        component={DirectoryDetailScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const PlayGroundFlow = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="PlayGround Screen"
+        component={PlayGroundScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="FileStructureFlow"
+        component={FileStructureFlow}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const styles = StyleSheet.create({
+  drawerContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  drawerHeader: {
+    backgroundColor: "#007aff",
+    alignItems: "center",
+    paddingLeft: Constants.statusBarHeight * 0.5,
+    paddingTop: Constants.statusBarHeight * 2,
+    paddingBottom: Constants.statusBarHeight,
+    flexDirection: "row",
+  },
+  drawerHeaderText: {
+    color: "#fff",
+    fontSize: 35,
+    fontWeight: "bold",
+  },
+  drawerItem: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333333",
+    flex: 1,
+    width: "100%",
+  },
+  drawerItemSelected: {
+    backgroundColor: "#007aff50",
+    // width: "100%",
+    flex: 1,
+  },
+  drawerItemContainer: {
+    // width: "100%",
+    flex: 1,
+  },
+  headerIconContainer: {
+    marginRight: 15,
+  },
+});
 
 const App = () => {
   return (

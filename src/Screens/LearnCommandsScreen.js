@@ -103,6 +103,19 @@ const LearnCommandsScreen = () => {
   );
 };
 
-export default LearnCommandsScreen
+export default LearnCommandsScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  terminalContainer: {
+    height: Dimensions.get("window").height * 0.3,
+    // backgroundColor:'rgba(0,0,0,1)',
+    borderWidth: 2,
+    borderColor: "black",
+    margin: 5,
+  },
+  input: {
+    borderColor: "red",
+    borderWidth: 1,
+    margin: 2,
+  },
+});
