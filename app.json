@@ -11,6 +11,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "androidStatusBar": {
+      "backgroundColor": "#007aff",
+      "translucent": false
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -24,7 +28,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.vasu_002.LearnOS"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -32,6 +37,11 @@
         "vt323": [
           "VT323-Regular.ttf"
         ]
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "05f6602e-50e9-4da7-98fa-642065188988"
       }
     }
   }
