@@ -11,7 +11,7 @@ import { Context as AlgoContext } from "../context/algoContext";
 
 const FCFSAlgoScreen = () => {
   const [arrTime, setArrTime] = useState(null);
-  const [burstTime, setBurstTime] = useState(0);
+  const [burstTime, setBurstTime] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const { addProcess, state, clear, schedule } = useContext(AlgoContext);
   return (
@@ -21,14 +21,21 @@ const FCFSAlgoScreen = () => {
         value={arrTime}
         onChangeText={(val) => setArrTime(val)}
       />
+      <TextInput
+        style={{ borderBottomColor: "grey", borderBottomWidth: 1 }}
+        value={burstTime}
+        onChangeText={(val) => setBurstTime(val)}
+      />
       <Button
         title="Add"
         onPress={() => {
           {
-            if (arrTime) {
+            if (arrTime && burstTime) {
               setArrTime(arrTime);
-              addProcess(arrTime, 8);
-              setArrTime(0);
+              setBurstTime(burstTime);
+              addProcess(arrTime, burstTime);
+              setArrTime(null);
+              setBurstTime(null);
             }
           }
         }}
@@ -63,11 +70,13 @@ const FCFSAlgoScreen = () => {
         renderItem={({ item }) => {
           return (
             <Text>
-              {item.arrTime} {item.burstTime}
+              {item.arrTime} || {item.burstTime} || {item.compTime} ||{" "}
+              {item.turnArrTime} || {item.waitingTime}
             </Text>
           );
         }}
       />
+
       {/* <Button
         title="FCFS"
         onPress={() => {
