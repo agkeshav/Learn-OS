@@ -98,6 +98,7 @@ const algoReducer = (state, action) => {
     case "clear":
       state.process = [];
       state.scheduledProcess = [];
+      state.perArr=[];
       return state;
     default:
       return state;
