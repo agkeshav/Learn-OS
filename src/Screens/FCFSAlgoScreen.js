@@ -76,13 +76,6 @@ const FCFSAlgoScreen = () => {
           );
         }}
       />
-
-      {/* <Button
-        title="FCFS"
-        onPress={() => {
-          navigation.navigate("FCFS Algorithms Screen");
-        }}
-      /> */}
     </View>
   );
 };
