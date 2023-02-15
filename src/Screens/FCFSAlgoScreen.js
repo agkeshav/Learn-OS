@@ -6,10 +6,12 @@ import {
   Button,
   TouchableOpacity,
   FlatList,
+  Dimensions,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { Context as AlgoContext } from "../context/algoContext";
 import { Feather } from "@expo/vector-icons";
+import Bar from "./../components/Bar";
 
 const FCFSAlgoScreen = () => {
   const [arrTime, setArrTime] = useState(null);
@@ -19,20 +21,32 @@ const FCFSAlgoScreen = () => {
   const [refresh, setRefresh] = useState(false);
   const { addProcess, state, clear, schedule } = useContext(AlgoContext);
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={{ flex: 1 }}>
       <View
         style={{
-          flex: 1,
-          justifyContent: "center", 
-          // alignItems: "center",
-          backgroundColor: "#00000040",
-          margin: 10,
+          // flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          // backgroundColor: "#00000040",
           borderRadius: 10,
-          padding: 100,
+          margin: 10,
+          padding: 20,
         }}
       >
-        <View style={styles.line}>
-          <Text>Arrival Time : </Text>
+        <Text>Arrival Time : </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignSelf: "center",
+            margin: 10,
+            borderColor: "grey",
+            borderWidth: 1,
+            borderRadius: 15,
+            padding: 5,
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
           <TouchableOpacity
             onPress={() => {
               setEntryTime(entryTime + 1);
@@ -43,14 +57,28 @@ const FCFSAlgoScreen = () => {
           <Text style={{ padding: 5 }}>{entryTime}</Text>
           <TouchableOpacity
             onPress={() => {
-              setEntryTime(entryTime - 1);
+              if (entryTime > 0) {
+                setEntryTime(entryTime - 1);
+              }
             }}
           >
             <Feather name="minus-circle" size={24} color="black" />
           </TouchableOpacity>
         </View>
-        <View style={styles.line}>
-          <Text>Burst Time : </Text>
+        <Text>Burst Time : </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignSelf: "center",
+            margin: 10,
+            borderColor: "grey",
+            borderWidth: 1,
+            borderRadius: 15,
+            padding: 5,
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
           <TouchableOpacity
             onPress={() => {
               setBursttime(Bursttime + 1);
@@ -61,94 +89,172 @@ const FCFSAlgoScreen = () => {
           <Text style={{ padding: 5 }}>{Bursttime}</Text>
           <TouchableOpacity
             onPress={() => {
-              setBursttime(Bursttime - 1);
+              if (Bursttime > 0) {
+                setBursttime(Bursttime - 1);
+              }
             }}
           >
             <Feather name="minus-circle" size={24} color="black" />
           </TouchableOpacity>
         </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            width: Dimensions.get("window").width * 0.75,
+            marginTop: 10,
 
-        <Button
-          title="Add"
-          onPress={() => {
-            {
-              if (entryTime >= 0 && Bursttime) {
-                setArrTime(entryTime);
-                setBurstTime(Bursttime);
-                addProcess(entryTime, Bursttime);
-                setArrTime(null);
-                setBurstTime(null);
-                setEntryTime(0);
-                setBursttime(0);
+            // borderColor: "black",
+            // borderWidth: 2,
+            // marginHorizontal: 10,
+          }}
+        >
+          <Button
+            title="Add"
+            onPress={() => {
+              {
+                if (entryTime >= 0 && Bursttime > 0) {
+                  setArrTime(entryTime);
+                  setBurstTime(Bursttime);
+                  addProcess(entryTime, Bursttime);
+                  setArrTime(null);
+                  setBurstTime(null);
+                  setEntryTime(0);
+                  setBursttime(0);
+                }
               }
-            }
-          }}
-        />
-        <Button
-          title="Clear"
-          onPress={() => {
-            clear();
-            setRefresh(!refresh);
-          }}
-        />
-        <Button
-          title="Schedule"
-          onPress={() => {
-            schedule();
-            setRefresh(!refresh);
-          }}
-        />
+            }}
+          />
+          <Button
+            title="Clear"
+            onPress={() => {
+              clear();
+              setRefresh(!refresh);
+            }}
+          />
+          <Button
+            title="Schedule"
+            onPress={() => {
+              schedule();
+              setRefresh(!refresh);
+            }}
+          />
+        </View>
       </View>
-      <FlatList
-        data={state.process}
-        renderItem={({ item }) => {
-          return (
-            <Text>
-              {item.arrTime} {item.burstTime}
-            </Text>
-          );
-        }}
-      />
-      <FlatList
-        data={state.scheduledProcess}
-        renderItem={({ item }) => {
-          return (
-            <Text>
-              {item.arrTime} || {item.burstTime} || {item.compTime} ||{" "}
-              {item.turnArrTime} || {item.waitingTime}
-            </Text>
-          );
-        }}
-      />
-
-      <FlatList
-        data={state.perArr}
-        renderItem={({ item }) => {
-          const barStyle = ({ item }) =>
-            StyleSheet.create({
-              bar: {
-                height: 50,
-                width: (400 * item) / 100,
-                backgroundColor: "#f09",
-                borderWidth: 2,
-                borderColor: "black",
-              },
-            });
-          return (
-            <View style={barStyle.bar}>
-              <Text>{item}</Text>
+      {state.process.length > 0 ? (
+        <>
+          <Text style={{ marginLeft: 45, fontSize: 20 }}>Processes</Text>
+          <View
+            style={{
+              ...styles.line,
+              alignSelf: "center",
+              width: Dimensions.get("window").width * 0.75,
+            }}
+          >
+            <View style={styles.tableBox}>
+              <Text>Id</Text>
             </View>
-          );
-        }}
-      />
-      {/* <View style={styles.bar}></View> */}
+            <View style={styles.tableBox}>
+              <Text>Arrival Time</Text>
+            </View>
+            <View style={styles.tableBox}>
+              <Text>Burst Time</Text>
+            </View>
+          </View>
+          <FlatList
+            style={{ alignSelf: "center", flex: 1 }}
+            data={state.process}
+            renderItem={({ item }) => {
+              return (
+                <View
+                  style={{
+                    ...styles.line,
+                    width: Dimensions.get("window").width * 0.75,
+                  }}
+                >
+                  <View style={styles.tableBox}>
+                    <Text>{`P${item.id}`}</Text>
+                  </View>
+                  <View style={styles.tableBox}>
+                    <Text>{item.arrTime}</Text>
+                  </View>
+                  <View style={styles.tableBox}>
+                    <Text>{item.burstTime}</Text>
+                  </View>
+                </View>
+              );
+            }}
+          />
+        </>
+      ) : null}
 
-      {/* <Button
-        title="FCFS"
-        onPress={() => {
-          navigation.navigate("FCFS Algorithms Screen");
-        }}
-      /> */}
+      {state.timeLine.length > 0 ? (
+        <Bar timeLine={state.timeLine} n={state.timeLine.length} />
+      ) : null}
+
+      {state.scheduledProcess.length > 0 ? (
+        <>
+          <View
+            style={{
+              ...styles.line,
+              alignSelf: "center",
+              width: Dimensions.get("window").width * 0.95,
+            }}
+          >
+            <View style={styles.tableBox}>
+              <Text>Id</Text>
+            </View>
+            <View style={styles.tableBox}>
+              <Text>AT</Text>
+            </View>
+            <View style={styles.tableBox}>
+              <Text>BT</Text>
+            </View>
+            <View style={styles.tableBox}>
+              <Text>CT</Text>
+            </View>
+            <View style={styles.tableBox}>
+              <Text>TAT</Text>
+            </View>
+            <View style={styles.tableBox}>
+              <Text>WT</Text>
+            </View>
+          </View>
+          <FlatList
+            data={state.scheduledProcess}
+            style={{ alignSelf: "center", flex: 1 }}
+            renderItem={({ item }) => {
+              return (
+                <View
+                  style={{
+                    ...styles.line,
+                    width: Dimensions.get("window").width * 0.95,
+                  }}
+                >
+                  <View style={styles.tableBox}>
+                    <Text>{`P${item.id}`}</Text>
+                  </View>
+                  <View style={styles.tableBox}>
+                    <Text>{item.arrTime}</Text>
+                  </View>
+                  <View style={styles.tableBox}>
+                    <Text>{item.burstTime}</Text>
+                  </View>
+                  <View style={styles.tableBox}>
+                    <Text>{item.ct}</Text>
+                  </View>
+                  <View style={styles.tableBox}>
+                    <Text>{item.tat}</Text>
+                  </View>
+                  <View style={styles.tableBox}>
+                    <Text>{item.wt}</Text>
+                  </View>
+                </View>
+              );
+            }}
+          />
+        </>
+      ) : null}
     </View>
   );
 };
@@ -160,9 +266,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  bar: {
-    height: 50,
-    width: 100,
-    backgroundColor: "#ff09",
+  tableBox: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "grey",
+    alignContent: "center",
+    paddingLeft: 1,
+    backgroundColor: "lightpink",
   },
 });

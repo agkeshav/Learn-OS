@@ -21,84 +21,77 @@ const algoReducer = (state, action) => {
         p1.arrTime > p2.arrTime ? 1 : p1.arrTime < p2.arrTime ? -1 : 0
       );
 
-      var new_arr = [];
-      var totalWaitingTime = 0;
-      var totalTurnArroundTime = 0;
+      let n = state.scheduledProcess.length;
+      let ct = [];
+      let tat = [];
+      let wt = [];
 
-      new_arr = [
-        ...new_arr,
-        {
-          arrTime: state.scheduledProcess[0].arrTime,
-          burstTime: state.scheduledProcess[0].burstTime,
-          compTime:
-            state.scheduledProcess[0].burstTime +
-            state.scheduledProcess[0].arrTime,
-          turnArrTime: state.scheduledProcess[0].burstTime,
-          waitingTime: 0,
-        },
-      ];
-      totalWaitingTime += new_arr[0].waitingTime;
-      totalTurnArroundTime += new_arr[0].turnArrTime;
-
-      for (var i = 1; i < state.scheduledProcess.length; i++) {
-        new_arr = [
-          ...new_arr,
-          {
-            arrTime: state.scheduledProcess[i].arrTime,
-            burstTime: state.scheduledProcess[i].burstTime,
-            compTime:
-              state.scheduledProcess[i].burstTime + new_arr[i - 1].compTime,
-            turnArrTime:
-              state.scheduledProcess[i].burstTime +
-              new_arr[i - 1].compTime -
-              state.scheduledProcess[i].arrTime,
-            waitingTime:
-              new_arr[i - 1].compTime - state.scheduledProcess[i].arrTime,
-          },
-        ];
-        totalWaitingTime += new_arr[i].waitingTime;
-        totalTurnArroundTime += new_arr[i].turnArrTime;
+      let currTime = 0;
+      let initialIdleTime = state.scheduledProcess[0].arrTime;
+      for (let i = 0; i < n; i++) {
+        if (currTime < state.scheduledProcess[i].arrTime) {
+          currTime = state.scheduledProcess[i].arrTime;
+        }
+        currTime = currTime + state.scheduledProcess[i].burstTime;
+        ct[i] = currTime;
       }
 
-      state.scheduledProcess = new_arr;
-      state.avgWaitingTime = totalWaitingTime / state.scheduledProcess.length;
-      state.avgTurnArrTime =
-        totalTurnArroundTime / state.scheduledProcess.length;
+      initialIdleTime = state.scheduledProcess[0].arrTime - initialIdleTime;
 
-      var perArr = [];
-      const totalTime =
-        state.scheduledProcess[state.scheduledProcess.length - 1].compTime;
-      if (state.scheduledProcess[0].arrTime > 0) {
-        perArr = [
-          ...perArr,
-          (state.scheduledProcess[0].arrTime / totalTime) * 100,
-        ];
-        for (var i = 0; i < state.scheduledProcess.length; i++) {
-          perArr = [
-            ...perArr,
-            (state.scheduledProcess[i].burstTime / totalTime) * 100,
-          ];
-        }
-      } else {
-        for (var i = 0; i < state.scheduledProcess.length; i++) {
-          perArr = [
-            ...perArr,
-            (state.scheduledProcess[i].burstTime / totalTime) * 100,
-          ];
+      for (let i = 0; i < n; i++) {
+        tat[i] = ct[i] - state.scheduledProcess[i].arrTime;
+        wt[i] = tat[i] - state.scheduledProcess[i].burstTime;
+      }
+
+      for (let i = 0; i < n; i++) {
+        ct[i] += initialIdleTime;
+      }
+
+      for (let i = 0; i < n; i++) {
+        state.scheduledProcess[i].ct = ct[i];
+        state.scheduledProcess[i].tat = tat[i];
+        state.scheduledProcess[i].wt = wt[i];
+      }
+
+      let t = ct[n - 1];
+
+      let timeLine = new Array(t);
+
+      let st = new Array(n);
+      st[0] = state.scheduledProcess[0].arrTime;
+      for (let i = 1; i < n; i++) {
+        st[i] = Math.max(
+          state.scheduledProcess[i - 1].ct,
+          state.scheduledProcess[i].arrTime
+        );
+      }
+
+      for (let i = 0; i < t; i++) {
+        timeLine[i] = -1;
+      }
+
+      for (let i = 0; i < n; i++) {
+        for (
+          let j = st[i];
+          j < st[i] + state.scheduledProcess[i].burstTime;
+          j++
+        ) {
+          timeLine[j] = state.scheduledProcess[i].id;
         }
       }
 
-      state.perArr = perArr;
+      state.timeLine = timeLine;
 
       console.log(state.scheduledProcess);
-      console.log(state.perArr);
-      console.log(state.process[0].arrTime + state.process[0].burstTime);
+      console.log(st);
+      console.log(timeLine);
+
       return state;
 
     case "clear":
       state.process = [];
       state.scheduledProcess = [];
-      state.perArr=[];
+      state.perArr = [];
       return state;
     default:
       return state;
@@ -123,7 +116,7 @@ export const { Context, Provider } = createDataContext(
   {
     process: [],
     scheduledProcess: [],
-    perArr: [],
+    timeLine: [],
     avgWaitingTime: 0,
     avgTurnArrTime: 0,
     showProcess: true,
