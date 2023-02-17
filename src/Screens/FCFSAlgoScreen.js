@@ -14,9 +14,7 @@ import { Feather } from "@expo/vector-icons";
 import Bar from "./../components/Bar";
 
 const FCFSAlgoScreen = () => {
-  const [arrTime, setArrTime] = useState(null);
-  const [burstTime, setBurstTime] = useState(null);
-  const [entryTime, setEntryTime] = useState(0);
+  const [arrTime, setArrTime] = useState(0);
   const [Bursttime, setBursttime] = useState(0);
   const [refresh, setRefresh] = useState(false);
   const { addProcess, state, clear, schedule } = useContext(AlgoContext);
@@ -49,16 +47,16 @@ const FCFSAlgoScreen = () => {
         >
           <TouchableOpacity
             onPress={() => {
-              setEntryTime(entryTime + 1);
+              setArrTime(arrTime + 1);
             }}
           >
             <Feather name="plus-circle" size={24} color="black" />
           </TouchableOpacity>
-          <Text style={{ padding: 5 }}>{entryTime}</Text>
+          <Text style={{ padding: 5 }}>{arrTime}</Text>
           <TouchableOpacity
             onPress={() => {
-              if (entryTime > 0) {
-                setEntryTime(entryTime - 1);
+              if (arrTime > 0) {
+                setArrTime(arrTime - 1);
               }
             }}
           >
@@ -113,13 +111,11 @@ const FCFSAlgoScreen = () => {
             title="Add"
             onPress={() => {
               {
-                if (entryTime >= 0 && Bursttime > 0) {
-                  setArrTime(entryTime);
-                  setBurstTime(Bursttime);
-                  addProcess(entryTime, Bursttime);
-                  setArrTime(null);
-                  setBurstTime(null);
-                  setEntryTime(0);
+                if (arrTime >= 0 && Bursttime > 0) {
+                  setArrTime(arrTime);
+                  setBursttime(Bursttime);
+                  addProcess(arrTime, Bursttime);
+                  setArrTime(0);
                   setBursttime(0);
                 }
               }
@@ -129,6 +125,8 @@ const FCFSAlgoScreen = () => {
             title="Clear"
             onPress={() => {
               clear();
+              setArrTime(0);
+              setBursttime(0);
               setRefresh(!refresh);
             }}
           />
@@ -188,7 +186,7 @@ const FCFSAlgoScreen = () => {
         </>
       ) : null}
 
-      {state.timeLine.length > 0 ? (
+      {state.timeLine.length > 0 && state.showBar ? (
         <Bar timeLine={state.timeLine} n={state.timeLine.length} />
       ) : null}
 
