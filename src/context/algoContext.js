@@ -16,7 +16,8 @@ const algoReducer = (state, action) => {
       return state;
     case "schedule":
       state.scheduledProcess = state.process.slice();
-
+      state.showBar = true;
+      console.log(timeLine)
       state.scheduledProcess.sort((p1, p2) =>
         p1.arrTime > p2.arrTime ? 1 : p1.arrTime < p2.arrTime ? -1 : 0
       );
@@ -90,6 +91,7 @@ const algoReducer = (state, action) => {
 
     case "clear":
       state.process = [];
+      state.showBar = false;
       state.scheduledProcess = [];
       state.perArr = [];
       return state;
@@ -120,5 +122,6 @@ export const { Context, Provider } = createDataContext(
     avgWaitingTime: 0,
     avgTurnArrTime: 0,
     showProcess: true,
+    showBar: false,
   }
 );
